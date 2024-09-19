@@ -119,3 +119,15 @@ if __name__ == "__main__":
     time.sleep(7)
     gain()
     backtogames()
+
+def main():
+    chrome_open()
+    time.sleep(1)
+    select_2048()
+    time.sleep(4)
+    start()
+    time.sleep(5)
+    play()
+    time.sleep(7)
+    gain()
+    backtogames()

@@ -132,3 +132,16 @@ if __name__ == "__main__":
     gain()
     collect_reward()  # Add this line to collect the reward
     backtogames()
+
+def main():
+    chrome_open()
+    time.sleep(1)
+    select_coincather()
+    time.sleep(6)
+    start()
+    time.sleep(1) # Berikan sedikit waktu setelah menekan tombol start
+    play() 
+    time.sleep(7)
+    gain()
+    collect_reward()  # Add this line to collect the reward
+    backtogames()

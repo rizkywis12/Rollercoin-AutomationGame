@@ -104,3 +104,14 @@ if __name__ == "__main__":
     play()  # Will run and track the ball
     time.sleep(7)
     backtogames()
+
+def main():
+    chrome_open()
+    time.sleep(1)
+    select_coincatcher()
+    time.sleep(4)
+    start()
+    time.sleep(5)
+    play()  # Will run and track the ball
+    time.sleep(7)
+    backtogames()
