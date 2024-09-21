@@ -1,7 +1,7 @@
 import random
 import time
 from loguru import logger
-from helicopter import main as helicopter_main
+# from helicopter import main as helicopter_main
 from coinc import main as coinc_main
 from cryptonoid import main as cryptonoid_main
 from coinfisher import main as coinfisher_main
@@ -11,14 +11,14 @@ from game2048 import main as game2048_main
 logger.add("game_log.log", format="{time} {level} {message}", level="INFO", rotation="10 MB")
 
 # List dari game yang tersedia
-games = [helicopter_main, coinc_main, cryptonoid_main, coinfisher_main, game2048_main]
+games = [coinc_main, cryptonoid_main, coinfisher_main, game2048_main]
 game_names = ["Helicopter", "Coinc", "Cryptonoid", "Coin Fisher", "2048"]
 
 # Fungsi untuk memilih game awal
 def select_game():
     logger.info("Memulai proses pemilihan game.")
     print("Pilih game yang ingin dimainkan:")
-    print("1. Helicopter")
+    # print("1. Helicopter")
     print("2. Coinc")
     print("3. Cryptonoid")
     print("4. Coin Fisher")

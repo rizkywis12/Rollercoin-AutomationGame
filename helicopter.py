@@ -105,12 +105,12 @@ def play():
             # Penyesuaian frekuensi klik berdasarkan jarak dari tengah
             if distance_from_center > 80:
                 pyautogui.click()  # Klik lebih sering jika jauh dari tengah
-                time.sleep(0.07) 
-            elif distance_from_center > 40:
+                time.sleep(0.05) 
+            elif distance_from_center > 50:
                 pyautogui.click()
                 time.sleep(0.07)
 
-        time.sleep(0.03) 
+        time.sleep(0.06) 
 
 def victory_check():
     print("Checking for victory...")
