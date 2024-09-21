@@ -41,11 +41,17 @@ def chrome_open():
         backhome()
 
 def select_coincather():
-    location = retry_find_image("img/coinclick.png", confidence=0.8)
+    """Pilih game Coin Catcher, jika tidak ditemukan setelah 5 kali percobaan, kembali ke halaman utama dan hentikan bot."""
+    print("Searching for Coin Catcher...")
+    location = retry_find_image("img/coinclick.png", retries=5, confidence=0.8)
     if location:
         pyautogui.click(location[0], location[1] + 50)
+        print("Coin Catcher selected.")
     else:
+        print("Coin Catcher not found after 5 attempts. Returning to home and stopping bot.")
         backhome()
+        return False  # Hentikan bot
+    return True  # Lanjutkan jika ditemukan
 
 def start():
     print("Searching for the 'Start' button...")
@@ -90,10 +96,14 @@ def play():
     values = [(171, 143, 52), (0, 96, 158), (91, 128, 231), (110, 139, 214), (191, 191, 191), (255, 153, 51)]  # Coin colors
 
     while True:
-        # Check for victory every second
-        if victory_check():
+        # Cek kemenangan atau kekalahan setiap detik
+        result = victory_or_defeat_check()
+        if result == "victory":
             print("Victory detected! Exiting play function.")
-            break
+            return "victory"  # Mengembalikan status kemenangan
+        elif result == "defeat":
+            print("Defeat detected! Exiting play function.")
+            return "defeat"  # Mengembalikan status kekalahan
 
         scan = pyautogui.screenshot()
         rgb_check = scan.getpixel((338, 48))
@@ -105,25 +115,44 @@ def play():
                     break
         time.sleep(0.01)  # Avoid checking too rapidly
 
-def victory_check():
-    print("Checking for victory...")
-    location = pyautogui.locateCenterOnScreen("img/victory.png", confidence=0.9)
-    if location is not None:
-        print("Victory detected!")
-        return True
-    return False
+def victory_or_defeat_check():
+    """Memeriksa apakah kondisi kemenangan atau kekalahan tercapai."""
+    print("Checking for victory or defeat...")
+
+    # Cek untuk victory
+    victory_location = pyautogui.locateCenterOnScreen("img/victory.png", confidence=0.9)
+    if victory_location:
+        print("Victory detected! Clicking 'Victory'.")
+        pyautogui.click(victory_location)  # Klik gambar kemenangan
+        return "victory"
+
+    # Cek untuk defeat
+    defeat_location = pyautogui.locateCenterOnScreen("img/defeat.png", confidence=0.9)
+    if defeat_location:
+        print("Defeat detected! Clicking 'Defeat'.")
+        pyautogui.click(defeat_location)  # Klik gambar kekalahan
+        return "defeat"
+
+    return None  # Tidak ada kondisi kemenangan atau kekalahan yang terdeteksi
 
 if __name__ == "__main__":
     chrome_open()
     time.sleep(1)
-    select_coincather()
-    time.sleep(4)
-    start()
-    time.sleep(5)
-    play()  # Will run for up to 50 seconds
-    time.sleep(7)
-    gain()
-    backtogames()
+    if select_coincather():  # Hanya lanjutkan jika select_coincather berhasil
+        time.sleep(4)
+        start()
+        time.sleep(5)
+        
+        # Dapatkan hasil dari play()
+        result = play()  # Akan mengembalikan "victory" atau "defeat"
+        
+        if result == "victory":
+            time.sleep(7)
+            gain()  # Hanya panggil gain jika menang
+            backtogames()
+        elif result == "defeat":
+            print("Game over. Bot stopped after defeat.")
+            # Tidak perlu lanjut ke gain, langsung keluar
 
 def main():
     chrome_open()
